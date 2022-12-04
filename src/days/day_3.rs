@@ -15,7 +15,7 @@ impl Solver {
                 res = Some(set)
             }
         }
-        return res.unwrap();
+        res.unwrap()
     }
 
     fn get_priority(&self, character: &char) -> u32 {

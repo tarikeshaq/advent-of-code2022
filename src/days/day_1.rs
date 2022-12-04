@@ -22,16 +22,14 @@ impl Solver {
 
 impl DaySolver for Solver {
     fn q2(&self, input_txt: &str) -> String {
-        let elfs = self.get_sorted_elfs(input_txt);
-        let mut res = 0;
-        for i in 0..3 {
-            res += elfs[i];
-        }
-        return res.to_string();
+        self.get_sorted_elfs(input_txt)
+            .iter()
+            .take(3)
+            .sum::<u32>()
+            .to_string()
     }
 
     fn q1(&self, input_txt: &str) -> String {
-        let elfs = self.get_sorted_elfs(input_txt);
-        return elfs[0].to_string();
+        self.get_sorted_elfs(input_txt)[0].to_string()
     }
 }

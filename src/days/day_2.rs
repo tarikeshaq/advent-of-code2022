@@ -111,25 +111,33 @@ pub struct Solver;
 
 impl DaySolver for Solver {
     fn q2(&self, input_txt: &str) -> String {
-        let mut result = 0;
-        for line in input_txt.lines() {
-            let mut split = line.split_whitespace();
-            let their_hand = Hand::from_str(split.next().unwrap()).unwrap();
-            let game_result = GameResult::from_str(split.next().unwrap()).unwrap();
-            let our_hand = get_my_hand(&their_hand, game_result);
-            result += our_hand.get_result(their_hand);
-        }
-        result.to_string()
+        input_txt
+            .lines()
+            .map(|line| {
+                let mut split = line.split_whitespace();
+                let their_hand = Hand::from_str(split.next().unwrap()).unwrap();
+                let game_result = GameResult::from_str(split.next().unwrap()).unwrap();
+                let our_hand = get_my_hand(&their_hand, game_result);
+                (our_hand, their_hand)
+            })
+            .fold(0, |acc, (our_hand, their_hand)| {
+                acc + our_hand.get_result(their_hand)
+            })
+            .to_string()
     }
 
     fn q1(&self, input_txt: &str) -> String {
-        let mut result = 0;
-        for line in input_txt.lines() {
-            let mut split = line.split_whitespace();
-            let their_hand = Hand::from_str(split.next().unwrap()).unwrap();
-            let our_hand = Hand::from_str(split.next().unwrap()).unwrap();
-            result += our_hand.get_result(their_hand);
-        }
-        result.to_string()
+        input_txt
+            .lines()
+            .map(|line| {
+                let mut split = line.split_whitespace();
+                let their_hand = Hand::from_str(split.next().unwrap()).unwrap();
+                let our_hand = Hand::from_str(split.next().unwrap()).unwrap();
+                (our_hand, their_hand)
+            })
+            .fold(0, |acc, (our_hand, their_hand)| {
+                acc + our_hand.get_result(their_hand)
+            })
+            .to_string()
     }
 }

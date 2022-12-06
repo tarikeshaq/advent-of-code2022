@@ -125,10 +125,7 @@ impl DaySolver for Solver {
                 }
             }
         }
-        stacks.values().fold(String::new(), |mut acc, e| {
-            acc.push(*e.iter().last().unwrap());
-            acc
-        })
+        stacks.values().map(|e| e.iter().last().unwrap()).collect()
     }
 
     fn q1(&self, input_txt: &str) -> String {

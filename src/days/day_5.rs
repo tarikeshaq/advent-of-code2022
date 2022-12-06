@@ -55,7 +55,10 @@ impl Iterator for InputParser<'_> {
                     }
                     idx += 4
                 }
-                if res.is_none() {
+                if let Some(res) = res {
+                    self.idx_in_line = Some(idx + 4);
+                    Some(res)
+                } else {
                     // we reached the end of the line. We should skip this line
                     self.idx_in_line = None;
                     self.lines.next();
@@ -69,10 +72,7 @@ impl Iterator for InputParser<'_> {
                         self.lines.next();
                         self.lines.next();
                     }
-                    return self.next();
-                } else {
-                    self.idx_in_line = Some(idx + 4);
-                    return Some(res.unwrap());
+                    self.next()
                 }
             }
             ParserState::Moves => {
@@ -91,10 +91,6 @@ impl Iterator for InputParser<'_> {
 enum ParsedItem {
     StackItem { item: char, stack_num: usize },
     Move { num: usize, from: usize, to: usize },
-}
-
-trait ParsedStage {
-    fn get_item(&self) -> ParsedItem;
 }
 
 pub struct Solver;

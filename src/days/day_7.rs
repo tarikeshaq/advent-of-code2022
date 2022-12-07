@@ -1,8 +1,4 @@
-use std::{
-    cell::{RefCell},
-    rc::Rc,
-    str::FromStr,
-};
+use std::{cell::RefCell, rc::Rc};
 
 use super::DaySolver;
 
@@ -10,7 +6,7 @@ pub struct Solver;
 
 #[derive(Debug, Clone)]
 enum DirectoryItem<'a> {
-    File { name: String, size: usize },
+    File { name: &'a str, size: usize },
     Directory(Rc<RefCell<Directory<'a>>>),
 }
 
@@ -37,19 +33,18 @@ impl Directory<'_> {
 }
 
 #[derive(Debug)]
-enum DirCommand {
-    Cd(String),
+enum DirCommand<'a> {
+    Cd(&'a str),
     Ls,
 }
 
-impl FromStr for DirCommand {
-    type Err = Box<dyn std::error::Error>;
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Ok(match s {
-            s if s.starts_with("$ cd") => Self::Cd(s.strip_prefix("$ cd ").unwrap().to_owned()),
+impl<'a> DirCommand<'a> {
+    fn new(s: &'a str) -> Self {
+        match s {
+            s if s.starts_with("$ cd") => Self::Cd(s.strip_prefix("$ cd ").unwrap()),
             s if s.starts_with("$ ls") => Self::Ls,
             _ => panic!("Invalid command"),
-        })
+        }
     }
 }
 
@@ -66,12 +61,12 @@ impl Solver {
         let mut lines = input_txt.lines().peekable();
         loop {
             let cmd_line = lines.next().unwrap();
-            let cmd = DirCommand::from_str(cmd_line).unwrap();
+            let cmd = DirCommand::new(cmd_line);
             match &cmd {
                 DirCommand::Cd(dir_name) => {
-                    if dir_name == "/" {
+                    if *dir_name == "/" {
                         curr_dir = root_dir.clone();
-                    } else if dir_name == ".." {
+                    } else if *dir_name == ".." {
                         // let just go back one directory and resume
                         let parent = {
                             let dir = curr_dir.borrow();
@@ -83,7 +78,7 @@ impl Solver {
                     } else {
                         let item = {
                             let dir = curr_dir.borrow();
-                            dir.items.iter().find(|item| matches!(item, DirectoryItem::Directory(dir) if dir.borrow().name == dir_name)).unwrap().clone()
+                            dir.items.iter().find(|item| matches!(item, DirectoryItem::Directory(dir) if dir.borrow().name == *dir_name)).unwrap().clone()
                         };
                         if let DirectoryItem::Directory(inner) = item {
                             curr_dir = inner.clone();
@@ -118,11 +113,11 @@ impl Solver {
                             let file_name = split.next().unwrap();
                             let file = {
                                 let dir = curr_dir.borrow();
-                                dir.items.iter().find(|item| matches!(item, DirectoryItem::File { name, ..} if name == file_name)).cloned()
+                                dir.items.iter().find(|item| matches!(item, DirectoryItem::File { name, ..} if *name == file_name)).cloned()
                             };
                             if file.is_none() {
                                 curr_dir.borrow_mut().items.push(DirectoryItem::File {
-                                    name: file_name.to_owned(),
+                                    name: file_name,
                                     size,
                                 })
                             }

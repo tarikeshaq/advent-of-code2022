@@ -1,6 +1,5 @@
 use std::{
-    cell::{Cell, RefCell},
-    collections::HashMap,
+    cell::{RefCell},
     rc::Rc,
     str::FromStr,
 };
@@ -124,7 +123,7 @@ impl Solver {
                             if file.is_none() {
                                 curr_dir.borrow_mut().items.push(DirectoryItem::File {
                                     name: file_name.to_owned(),
-                                    size: size,
+                                    size,
                                 })
                             }
                         }

@@ -1,7 +1,4 @@
-use std::{
-    collections::{BTreeMap, HashMap, HashSet},
-    mem::take,
-};
+use std::collections::HashMap;
 
 use super::DaySolver;
 

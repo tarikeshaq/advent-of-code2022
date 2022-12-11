@@ -2,6 +2,10 @@ use std::collections::VecDeque;
 
 use super::DaySolver;
 
+// This is the multiple of all prime numbers between
+// 1 and 23
+const FACTORS: i64 = 223_092_870;
+
 #[derive(Debug, Clone, Copy)]
 enum Operand {
     Num(i64),
@@ -42,8 +46,7 @@ impl Operation {
 fn reduce(num: i64) -> i64 {
     // we reduce the number to have the information we really care about.
     // which is how far away we are from the next prime multiple
-    let factors = [2, 3, 5, 7, 11, 13, 17, 19, 23].iter().product::<i64>();
-    num % factors
+    num % FACTORS
 }
 
 #[derive(Debug, Clone, Copy)]

@@ -23,5 +23,4 @@ async fn main() {
     println!("Q2 RESULT IS: {}", days::get_solver(day).q2(&input_txt));
     println!();
     println!("================================================================");
-
 }

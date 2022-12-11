@@ -58,7 +58,6 @@ pub fn get_solver(day: u32) -> Box<dyn DaySolver> {
         1 => Box::new(day_1::Solver),
         2 => Box::new(day_2::Solver),
         3 => Box::new(day_3::Solver),
-        // repeat for each day until day 25
         4 => Box::new(day_4::Solver),
         5 => Box::new(day_5::Solver),
         6 => Box::new(day_6::Solver),

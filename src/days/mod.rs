@@ -52,34 +52,35 @@ pub trait DaySolver {
 /// # Arguments
 /// - `day`: The day to retrieve the solver for
 ///
-/// #
-pub fn get_solver(day: u32) -> Box<dyn DaySolver> {
+/// # Returns
+/// Returns a static reference to a [`DaySolver`] trait object
+pub fn get_solver(day: u32) -> &'static dyn DaySolver {
     match day {
-        1 => Box::new(day_1::Solver),
-        2 => Box::new(day_2::Solver),
-        3 => Box::new(day_3::Solver),
-        4 => Box::new(day_4::Solver),
-        5 => Box::new(day_5::Solver),
-        6 => Box::new(day_6::Solver),
-        7 => Box::new(day_7::Solver),
-        8 => Box::new(day_8::Solver),
-        9 => Box::new(day_9::Solver),
-        10 => Box::new(day_10::Solver),
-        11 => Box::new(day_11::Solver),
-        12 => Box::new(day_12::Solver),
-        13 => Box::new(day_13::Solver),
-        14 => Box::new(day_14::Solver),
-        15 => Box::new(day_15::Solver),
-        16 => Box::new(day_16::Solver),
-        17 => Box::new(day_17::Solver),
-        18 => Box::new(day_18::Solver),
-        19 => Box::new(day_19::Solver),
-        20 => Box::new(day_20::Solver),
-        21 => Box::new(day_21::Solver),
-        22 => Box::new(day_22::Solver),
-        23 => Box::new(day_23::Solver),
-        24 => Box::new(day_24::Solver),
-        25 => Box::new(day_25::Solver),
+        1 => &day_1::Solver,
+        2 => &day_2::Solver,
+        3 => &day_3::Solver,
+        4 => &day_4::Solver,
+        5 => &day_5::Solver,
+        6 => &day_6::Solver,
+        7 => &day_7::Solver,
+        8 => &day_8::Solver,
+        9 => &day_9::Solver,
+        10 => &day_10::Solver,
+        11 => &day_11::Solver,
+        12 => &day_12::Solver,
+        13 => &day_13::Solver,
+        14 => &day_14::Solver,
+        15 => &day_15::Solver,
+        16 => &day_16::Solver,
+        17 => &day_17::Solver,
+        18 => &day_18::Solver,
+        19 => &day_19::Solver,
+        20 => &day_20::Solver,
+        21 => &day_21::Solver,
+        22 => &day_22::Solver,
+        23 => &day_23::Solver,
+        24 => &day_24::Solver,
+        25 => &day_25::Solver,
         _ => panic!("Invalid day"),
     }
 }

@@ -13,6 +13,15 @@ async fn main() {
     if input_txt.is_empty() {
         input_txt = utils::read_from_server(day).await;
     }
+    println!("================================================================");
+    println!();
     println!("Q1 RESULT IS: {}", days::get_solver(day).q1(&input_txt));
+    println!();
+    println!("================================================================");
+    println!("================================================================");
+    println!();
     println!("Q2 RESULT IS: {}", days::get_solver(day).q2(&input_txt));
+    println!();
+    println!("================================================================");
+
 }

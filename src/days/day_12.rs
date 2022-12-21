@@ -1,17 +1,26 @@
-use std::collections::{VecDeque, HashSet};
+use std::collections::{HashSet, VecDeque};
 
 use super::DaySolver;
 
 pub struct Solver;
 
-fn can_go(matrix: &Vec<Vec<char>>, seen: &HashSet<(usize, usize)>, from: (usize, usize), to: (i32, i32)) -> bool {
+fn can_go(
+    matrix: &Vec<Vec<char>>,
+    seen: &HashSet<(usize, usize)>,
+    from: (usize, usize),
+    to: (i32, i32),
+) -> bool {
     let (i, j) = from;
     let (new_i, new_j) = to;
     let mut c = matrix[i][j];
     if c == 'S' {
         c = 'a'
     }
-    if new_i < 0 || new_i as usize >= matrix.len() || new_j < 0 || new_j as usize >= matrix[new_i as usize].len() {
+    if new_i < 0
+        || new_i as usize >= matrix.len()
+        || new_j < 0
+        || new_j as usize >= matrix[new_i as usize].len()
+    {
         return false;
     }
 
@@ -23,7 +32,7 @@ fn can_go(matrix: &Vec<Vec<char>>, seen: &HashSet<(usize, usize)>, from: (usize,
 
     let next_c = matrix[new_i][new_j];
     if next_c == 'E' {
-        return true
+        return true;
     }
 
     next_c as i32 - c as i32 <= 1
@@ -39,10 +48,10 @@ fn run_bfs(matrix: &Vec<Vec<char>>, start: (usize, usize)) -> i32 {
     while !queue.is_empty() {
         let ((i, j), dist) = queue.pop_front().unwrap();
         if seen.contains(&(i, j)) {
-            continue
+            continue;
         }
         if matrix[i][j] == 'E' {
-            return dist
+            return dist;
         }
         seen.insert((i, j));
         for (dir_i, dir_j) in dirs {
@@ -53,7 +62,7 @@ fn run_bfs(matrix: &Vec<Vec<char>>, start: (usize, usize)) -> i32 {
             }
         }
     }
-    return i32::MAX
+    return i32::MAX;
 }
 
 impl DaySolver for Solver {
